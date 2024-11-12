@@ -26,6 +26,12 @@ int isAllowed(const char*cmd) {
 }
 
 // Function to print the help message
+void help() {
+	printf("The allowed commands are:\n");
+	for (int i = 0; i < N; i++) {
+		printf("%d: %s\n", i + 1, allowed[i]);
+	}
+}
 
 
 int main() {
