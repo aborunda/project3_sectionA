@@ -1,3 +1,9 @@
+/*
+student: Alex Borunda
+class: CSCI210 (systems programming)
+date: 10/14/2021
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <spawn.h>
