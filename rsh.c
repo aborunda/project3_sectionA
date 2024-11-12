@@ -54,6 +54,27 @@ int main() {
 		// And add code to execute cd, exit, help commands
 		// Use the example provided in myspawn.c
 
+		/*
+			Tokenize the input line into command and arguments
+		*/
+		// argv[21] is used to store the arguments
+		char *argv[21];
+		// argc is used to store the number of arguments
+		int argc = 0;
+		// Tokenize the input line into command and arguments
+		char *token = strtok(line, " ");
+		// Iterate over the tokens and store them in argv
+		while(token != NULL && argc < 20) {
+			argv[argc++] = token;
+			token = strtok(NULL, " ");
+		}
+		// Set the last element of argv to NULL
+		argv[argc] = NULL;
+		// If the command is exit, break the loop
+		if (argc == 0) continue;
+
+
+
     }
     return 0;
 }
