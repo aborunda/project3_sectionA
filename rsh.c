@@ -92,28 +92,41 @@ int main() {
 		/*
 		Handle the built-in commands
 		*/
+		// If the command is cd, change the directory
 		if (strcmp(argv[0], "cd") == 0) {
-			// Change the directory
+			// If, there are too many arguments, print an error message
 			if (argc != 2) {
 				printf("-rsh: cd: too many arguments\n");
-			} else {
+			} 
+			// else, change the directory
+			else {
 				if (chdir(argv[1]) != 0) {
 					perror("cd");
 				}
 			}
-		} else if (strcmp(argv[0], "exit") == 0) {
+		} 
+		// else if, the command is exit, break the loop
+		else if (strcmp(argv[0], "exit") == 0) {
 			// Exit the shell
 			return 0;
-		} else if (strcmp(argv[0], "help") == 0) {
+		} 
+		// else if, the command is help, print the help message
+		else if (strcmp(argv[0], "help") == 0) {
 			// print the help message
 			help();
-		} else {
+		} 
+		// else, spawn a new process
+		else {
 			// Spawn a new process for the first 9 commands
 			pid_t pid;
+			// initialize the status variable
 			int status;
+			// If the command is allowed, spawn a new process
 			if (posix_spawnp(&pid, argv[0], NULL, NULL, argv, environ) != 0) {
 				perror("posix_spawnp");
-			} else {
+			} 
+			// else, wait for the child process to finish
+			else {
 				waitpid(pid, &status, 0);
 			}
 		}
