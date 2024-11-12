@@ -49,13 +49,15 @@ int main() {
 
 		line[strlen(line)-1]='\0';
 
-		// TODO
-		// Add code to spawn processes for the first 9 commands
-		// And add code to execute cd, exit, help commands
-		// Use the example provided in myspawn.c
-
 		/*
-			Tokenize the input line into command and arguments
+		TODO
+		Add code to spawn processes for the first 9 commands
+		And add code to execute cd, exit, help commands
+		Use the example provided in myspawn.c
+		*/
+		
+		/*
+		Tokenize the input line into command and arguments
 		*/
 		// argv[21] is used to store the arguments
 		char *argv[21];
@@ -73,8 +75,42 @@ int main() {
 		// If the command is exit, break the loop
 		if (argc == 0) continue;
 
+		/*
+		Check if the command is allowed
+		*/
+		if (!isAllowed(argv[0])) {
+			printf("NOT ALLOWED!\n");
+			continue;
+		}
 
-
+		/*
+		Handle the built-in commands
+		*/
+		if (strcmp(argv[0], "cd") == 0) {
+			// Change the directory
+			if (argc != 2) {
+				printf("-rsh: cd: too many arguments\n");
+			} else {
+				if (chdir(argv[1]) != 0) {
+					perror("cd");
+				}
+			}
+		} else if (strcmp(argv[0], "exit") == 0) {
+			// Exit the shell
+			return 0;
+		} else if (strcmp(argv[0], "help") == 0) {
+			// print the help message
+			help();
+		} else {
+			// Spawn a new process for the first 9 commands
+			pid_t pid;
+			int status;
+			if (posix_spawnp(&pid, argv[0], NULL, NULL, argv, environ) != 0) {
+				perror("posix_spawnp");
+			} else {
+				waitpid(pid, &status, 0);
+			}
+		}
     }
     return 0;
 }
